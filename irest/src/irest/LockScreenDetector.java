@@ -9,7 +9,7 @@ public class LockScreenDetector {
     /* Programmed with default functionality of saying that the screen is not
      * locked, if the OS type is not detected
     */
-    public boolean getScreenLockStatus() {
+    public boolean isScreenLocked() {
         return false;
     }
 }

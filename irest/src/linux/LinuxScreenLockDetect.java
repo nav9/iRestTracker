@@ -10,7 +10,7 @@ import irest.LockScreenDetector;
 public class LinuxScreenLockDetect extends LockScreenDetector {
 
     @Override
-    public boolean getScreenLockStatus() {
+    public boolean isScreenLocked() {
         boolean locked = false;
         return locked;
     }
