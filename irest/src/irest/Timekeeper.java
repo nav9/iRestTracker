@@ -11,8 +11,8 @@ public class Timekeeper {
     private final int checkDelay = 5;//minutes
     private final int seconds = 1000;
     private final int minutes = 60;
-    private final int pauseTime = checkDelay * seconds * minutes;
-    //private final long pauseTime = checkDelay * seconds;//for testing
+    //private final int pauseTime = checkDelay * seconds * minutes;
+    private final long pauseTime = checkDelay * seconds;//for testing
     private final DataManager data;
     
     public Timekeeper() {
