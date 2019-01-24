@@ -26,8 +26,7 @@ public class DataManager {
         }   
         try {fos = new PrintWriter(new FileWriter(currentFilename, true));} catch (IOException ex) {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);
-            //TODO: make provision to play sound to notify about this error. Or show message in GUI.
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);            
         }
     }
     

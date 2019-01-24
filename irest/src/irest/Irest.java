@@ -20,8 +20,14 @@ public class Irest {
         
         //---main loop that runs while the system runs
         while(true) {
-            if (!lockScreen.isScreenLocked()) {t.RecordActivity();}
-            try {Thread.sleep(t.GetPauseDelay());} catch (InterruptedException ex) {Logger.getLogger(Irest.class.getName()).log(Level.SEVERE, null, ex);}            
+            if (lockScreen.isScreenLocked()) {
+                t.ResetBeepWarningIfSufficientRestObtained();//if screen is locked for at least half an hour, the hourly beep countdown is reset to current time
+            } else {
+                t.RecordAndNotifyUserIfTimeElapsed();//write to file and play sound if an hour elapsed
+            }
+            try {
+                Thread.sleep(t.GetPauseDelay());//go to sleep for 5 minutes
+            } catch (InterruptedException ex) {Logger.getLogger(Irest.class.getName()).log(Level.SEVERE, null, ex);}                        
         }            
     }    
 }
