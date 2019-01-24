@@ -21,10 +21,7 @@ public class Irest {
         //---main loop that runs while the system runs
         while(true) {
             if (!lockScreen.isScreenLocked()) {t.RecordActivity();}
-            try {Thread.sleep(t.GetPauseDelay());} catch (InterruptedException ex) {Logger.getLogger(Irest.class.getName()).log(Level.SEVERE, null, ex);}
-            System.out.println(".");
-        }
-            
-    }
-    
+            try {Thread.sleep(t.GetPauseDelay());} catch (InterruptedException ex) {Logger.getLogger(Irest.class.getName()).log(Level.SEVERE, null, ex);}            
+        }            
+    }    
 }
