@@ -15,25 +15,22 @@ import java.util.logging.Logger;
 public class DataManager {
     private final String currentFilename = "time.txt";
     private final String resultsFilename = "results.csv";
-    private final File currentFile;
-    private PrintWriter fos;
     
-    public DataManager() {
-        this.fos = null;
+    public DataManager() {}//ctor
+    
+    public void RecordActiveTime(final Long time) {
+        File currentFile;
+        PrintWriter fos = null;
+        
         currentFile = new File(currentFilename);
         if(!currentFile.exists()){
             try {currentFile.createNewFile();} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
-        }   
-        try {fos = new PrintWriter(new FileWriter(currentFilename, true));} catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);            
         }
-    }
-    
-    public void RecordActiveTime(final Long time) {
+        if(!currentFile.exists()){return;}
+        
+        try {fos = new PrintWriter(new FileWriter(currentFilename, true));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
         if (fos == null) {return;}        
         fos.println(Long.toString(time));
-        fos.flush();
+        fos.close();        
     }
-    
 }
