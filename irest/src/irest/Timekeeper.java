@@ -16,7 +16,7 @@ public class Timekeeper {
     private final int writeDelay = 5 * this.toSecond;//Unit: minutes to seconds
     private final long beepDelay = 1 * this.toHours;//Unit: hours to seconds. 1 hour beeps
     private final long sufficientRestTime = 30 * this.toSecond;//Unit: seconds. 30 minute rest time is considered sufficient
-    private final long reminderInterval = 5 * this.toSecond;//reminds User to rest
+    private final long reminderInterval = 1 * this.toSecond;//Unit: minutes to seconds. Reminds User to rest
     private boolean reminderActive;
     private long lastBeep;    
     private long lastWrite;    
