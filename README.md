@@ -7,11 +7,20 @@ TODO: A running mode which extracts the log of usage data, stores the number of 
 # To use on Ubuntu
 You have three choices.  
 1. To start the script whenever you log in to your account, put the following line in ~/.bash_profile  
-java -jar path/to/the/jar/file/irest.jar
+java -jar path/to/the/jar/file/irest.jar  
+The "time.txt" file will be created in the home directory.  
 
 or  
 2. Follow these instructions to run the file via init.d  
-https://askubuntu.com/a/99582/148011
+https://askubuntu.com/a/99582/148011  
+The instructions are:  
+First create an "iRest" folder in your home directory.  
+Place the irest.jar file and the irest_start.sh and irest_stop.sh files in that directory.  
+Place the irest_initd file in the /etc/init.d folder using the command sudo cp irest_initd /etc/init.d  
+Execute this command sudo update-rc.d irest_initd defaults  
+Reboot the computer and irest.jar will be run automatically.  
+You can check by running ps -aef | grep java  
+The "time.txt" file will be created in the ~/irest/ directory.  
 
 or  
 3. Simply start up a terminal whenever you want to run the program and run it with  
