@@ -16,7 +16,6 @@ public class Timekeeper {
     private final int toHours = 60 * this.toSecond;
     private final int pauseDelay = this.minutesToPause * this.toMilli * this.toSecond;//Unit: milliseconds
     private final int writeDelay = this.writeToFileInterval * this.toMilli * this.toSecond;//Unit: milliseconds
-    //private final int pauseDelay = 10000;//for testing
     private final long beepDelay = 1 * this.toHours;//Unit: seconds. 1 hour beeps
     private final long sufficientRestTime = 30 * this.toSecond;//Unit: seconds. 30 minute rest time is considered sufficient
     private final long reminderInterval = 5 * this.toSecond;//reminds User to rest
@@ -40,7 +39,7 @@ public class Timekeeper {
     public void RecordAndNotifyUserIfTimeElapsed() {//means that the User is currently using the computer
         long timeNow = Instant.now().getEpochSecond();
         
-        if (timeNow - this.lastWrite >= this.writeToFileInterval) {//write to file if interval elapsed
+        if (timeNow - this.lastWrite >= this.writeDelay) {//write to file if interval elapsed
             this.data.RecordActiveTime(timeNow);
             this.lastWrite = timeNow;
         }            
