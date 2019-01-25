@@ -9,14 +9,12 @@ import java.time.Instant;
 import sounds.PlaySound;
 
 public class Timekeeper {
-    private final int minutesToPause = 1;//program goes to sleep for these many minutes
-    private final int writeToFileInterval = 5;//program writes to file at this interval (in minutes)
     private final int toMilli = 1000;
     private final int toSecond = 60;
     private final int toHours = 60 * this.toSecond;
-    private final int pauseDelay = this.minutesToPause * this.toMilli * this.toSecond;//Unit: milliseconds
-    private final int writeDelay = this.writeToFileInterval * this.toMilli * this.toSecond;//Unit: milliseconds
-    private final long beepDelay = 1 * this.toHours;//Unit: seconds. 1 hour beeps
+    private final int pauseDelay = 1 * this.toSecond * this.toMilli;//Unit: minutes to milliseconds. Thread sleep needs it in this unit
+    private final int writeDelay = 5 * this.toSecond;//Unit: minutes to seconds
+    private final long beepDelay = 1 * this.toHours;//Unit: hours to seconds. 1 hour beeps
     private final long sufficientRestTime = 30 * this.toSecond;//Unit: seconds. 30 minute rest time is considered sufficient
     private final long reminderInterval = 5 * this.toSecond;//reminds User to rest
     private boolean reminderActive;
