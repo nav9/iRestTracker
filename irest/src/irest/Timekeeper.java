@@ -6,6 +6,9 @@
 package irest;
 
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import sounds.PlaySound;
 
 public class Timekeeper {
@@ -25,32 +28,32 @@ public class Timekeeper {
     //TODO: move intervals of data and sound to respective classes if necessary
     
     public Timekeeper() {
-        this.reminderActive = false;
-        this.lastBeep = 0;
-        this.lastWrite = 0;
         this.data = new DataManager();
         this.sounds = new PlaySound();
+        this.reminderActive = false;
+        this.lastBeep = this.data.GetLastRemindedTime();
+        this.lastWrite = this.data.GetLastRecordedTime();
+        System.out.println("Last Beep: "+this.lastBeep);
+        System.out.println("Last Write: "+this.lastWrite);
     }
     
     public long GetPauseDelay() {return pauseDelay;}
-    
+        
     public void RecordAndNotifyUserIfTimeElapsed() {//means that the User is currently using the computer
         long timeNow = Instant.now().getEpochSecond();
         
         if (timeNow - this.lastWrite >= this.writeDelay) {//write to file if interval elapsed
             this.data.RecordActiveTime(timeNow);
-            this.lastWrite = timeNow;
+            this.lastWrite = timeNow;            
         }            
         
-        if (timeNow - this.lastBeep >= this.beepDelay) {//play sound if an hour elapsed
-            this.sounds.PlayBeep();
-            this.reminderActive = true;
-            this.lastBeep = timeNow;
+        if (timeNow - this.lastBeep >= this.beepDelay) {//notify User if an hour elapsed
+            RemindUserToStop(timeNow, "Time to rest");
+            this.reminderActive = true;            
         }
         
         if (timeNow - this.lastBeep >= this.reminderInterval && this.reminderActive) {//play sound if an hour elapsed and User is still using computer
-            this.sounds.PlayBeep();
-            this.lastBeep = timeNow;
+            RemindUserToStop(timeNow, "Come on...rest");            
             //reminder is deactivated in ResetBeepWarningIfSufficientRestObtained()
         }        
     }
@@ -62,4 +65,14 @@ public class Timekeeper {
             this.reminderActive = false;
         }        
     }
+    
+    private void RemindUserToStop(final long timeNow, final String message) {
+        this.lastBeep = timeNow;
+        this.sounds.PlayBeep();
+        try {
+            JOptionPane.showMessageDialog(null, message);   
+        } catch(Exception ex) {{Logger.getLogger(Timekeeper.class.getName()).log(Level.WARNING, null, ex);}}
+        this.data.RecordTimeRemindedUser(timeNow);
+    }
+    
 }

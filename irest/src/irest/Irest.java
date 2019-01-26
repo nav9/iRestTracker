@@ -19,7 +19,7 @@ public class Irest {
         if (osName.equals("Linux")) {lockScreen = new LinuxScreenLockDetect();}
         
         //---main loop that runs while the system runs
-        while(true) {
+        while(true) {            
             if (lockScreen.isScreenLocked()) {
                 t.ResetBeepWarningIfSufficientRestObtained();//if screen is locked for at least half an hour, the hourly beep countdown is reset to current time
             } else {
