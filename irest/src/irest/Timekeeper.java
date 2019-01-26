@@ -22,19 +22,30 @@ public class Timekeeper {
     private final long reminderInterval = 1 * this.toSecond;//Unit: minutes to seconds. Reminds User to rest
     private boolean reminderActive;
     private long lastBeep;    
-    private long lastWrite;    
+    private long lastWrite;  
     private final DataManager data;
     private final PlaySound sounds;
     //TODO: move intervals of data and sound to respective classes if necessary
     
-    public Timekeeper() {
+    public Timekeeper() {        
         this.data = new DataManager();
-        this.sounds = new PlaySound();
+        this.sounds = new PlaySound();        
         this.reminderActive = false;
+        if (this.data.IsFirstRunIfYesCreateFile()) {this.SetInitialRunValues();} else {this.LoadInitialRunValues();}
+    }
+    
+    private void SetInitialRunValues() {
+        long timeNow = Instant.now().getEpochSecond();
+        this.lastWrite = timeNow;
+        this.lastBeep = timeNow;
+    }
+    
+    private void LoadInitialRunValues() {
         this.lastBeep = this.data.GetLastRemindedTime();
-        this.lastWrite = this.data.GetLastRecordedTime();
-        System.out.println("Last Beep: "+this.lastBeep);
-        System.out.println("Last Write: "+this.lastWrite);
+        this.lastWrite = this.data.GetLastRecordedTime();  
+        long timeNow = Instant.now().getEpochSecond();
+        if (this.lastBeep == 0) {this.lastBeep = timeNow;}
+        if (this.lastWrite == 0) {this.lastWrite = timeNow;}
     }
     
     public long GetPauseDelay() {return pauseDelay;}

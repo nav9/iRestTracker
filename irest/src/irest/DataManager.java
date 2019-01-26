@@ -24,17 +24,24 @@ public class DataManager {
     
     public DataManager() {}//ctor
     
-    public void RecordActiveTime(final Long time) {//appends to file
-        File currentFile;
-        PrintWriter fos = null;
-        
-        currentFile = new File(currentFilename);
+    public boolean IsFirstRunIfYesCreateFile() {
+        boolean fileExists = this.DoesThisFileExist(this.currentFilename);
+        File currentFile = new File(this.currentFilename);
         if(!currentFile.exists()){
             try {currentFile.createNewFile();} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
         }
-        if(!currentFile.exists()){return;}
-        
-        try {fos = new PrintWriter(new FileWriter(currentFilename, true));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
+        return !fileExists;
+    }
+    
+    private boolean DoesThisFileExist(final String filename) {
+        File currentFile = new File(filename);        
+        return currentFile.exists();
+    }
+    
+    public void RecordActiveTime(final Long time) {//appends to file  
+        if (!this.DoesThisFileExist(this.currentFilename)) {return;}
+        PrintWriter fos = null;
+        try {fos = new PrintWriter(new FileWriter(this.currentFilename, true));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
         if (fos == null) {return;}        
         fos.println(Long.toString(time));
         fos.close();        
@@ -44,24 +51,26 @@ public class DataManager {
         File currentFile;
         PrintWriter fos = null;
         
-        currentFile = new File(lastRemindedTimeFilename);
+        currentFile = new File(this.lastRemindedTimeFilename);
         if(!currentFile.exists()){
-            try {currentFile.createNewFile();} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
+            try {
+                currentFile.createNewFile();
+            } catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
         }
         if(!currentFile.exists()){return;}
         
-        try {fos = new PrintWriter(new FileWriter(lastRemindedTimeFilename, false));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
+        try {fos = new PrintWriter(new FileWriter(this.lastRemindedTimeFilename, false));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
         if (fos == null) {return;}        
         fos.println(Long.toString(time));
         fos.close();          
     }
     
     public long GetLastRemindedTime() {
-        return GetLastTime(lastRemindedTimeFilename);
+        return GetLastTime(this.lastRemindedTimeFilename);
     }
     
     public long GetLastRecordedTime() {
-        return GetLastTime(currentFilename);
+        return GetLastTime(this.currentFilename);
     }
     
     private long GetLastTime(final String filename) {
