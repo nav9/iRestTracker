@@ -30,4 +30,8 @@ java -jar path/to/the/jar/file/irest.jar
 
 # To use on Windows / Mac
 The program should run fine on any other operating system that runs the JVM. The only operating-system-specific functionality that is not yet programmed for Windows and Mac is the detection of a locked screen. If you do not need that functionality, then go ahead and run the program with:  
-java -jar path/to/the/jar/file/irest.jar
+java -jar path/to/the/jar/file/irest.jar  
+  
+# The State Transition Diagrams
+The StateTransition.odg file can be opened with Libre Office Draw. The contents of the file are what are shown in StateTransitions.png. These states describe the transition possibilities that are programmed in the state classes. It follows a principle similar to the State Design Pattern.  
+
