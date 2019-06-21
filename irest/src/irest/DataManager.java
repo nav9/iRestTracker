@@ -1,93 +1,79 @@
 /*
  * License: MIT
- * Date created: 23 Jan 2019
  * @author navin
  */
 package irest;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static jdk.nashorn.internal.runtime.JSType.isNumber;
+import linux.LinuxScreenLockDetect;
 
 public class DataManager {
+    public State currentState = new State();
+    public BigSleepState bigSleepState = null;
+    public SmallSleepState smallSleepState = null;
+    public LockedScreenState lockedScreenState = null;
+    public ActiveState activeState = null;
+    public StartState startState = null;
+    public WriteState writeState = null;
+    public ReminderState reminderState = null;
+    
+    public int minutesOfRestObtained = 0;//Unit: seconds
+    public final float strainFactor = 1;//Factor to multiply with big or small sleep time value, when incrementing or decrementing minutesOfRestObtained
+    
+    private LockScreenDetector lockScreen = new LockScreenDetector();//Default functionality is to not detect lock screen. Can be overridden based on OS type, where the overriding class can detect screen locks
+    private final int toMilli = 1000;
+    private final int toSecond = 60;
+    public final int bigSleepTime = 1 * this.toSecond * this.toMilli;//Unit: minutes to milliseconds. Thread sleep needs it in this unit
+    public final int smallSleepTime = 1 * this.toSecond * this.toMilli;//Unit: minutes to milliseconds. Thread sleep needs it in this unit
     private final String programName = "irest";
-    private final String currentFilename = "time." + this.programName;
-    private final String lastRemindedTimeFilename = "rem" + this.programName;
-    private final String resultsFilename = this.programName + "results.csv";
+    public final String timeFilename = "time." + this.programName;
     
-    public DataManager() {}//ctor
-    
-    public boolean IsFirstRunIfYesCreateFile() {
-        boolean fileExists = this.DoesThisFileExist(this.currentFilename);
-        File currentFile = new File(this.currentFilename);
-        if(!currentFile.exists()){
-            try {currentFile.createNewFile();} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
-        }
-        return !fileExists;
-    }
-    
-    private boolean DoesThisFileExist(final String filename) {
-        File currentFile = new File(filename);        
-        return currentFile.exists();
-    }
-    
-    public void RecordActiveTime(final Long time) {//appends to file  
-        if (!this.DoesThisFileExist(this.currentFilename)) {return;}
-        PrintWriter fos = null;
-        try {fos = new PrintWriter(new FileWriter(this.currentFilename, true));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
-        if (fos == null) {return;}        
-        fos.println(Long.toString(time));
-        fos.close();        
-    }
-    
-    public void RecordTimeRemindedUser(final long time) {//replaces existing value in file
-        File currentFile;
-        PrintWriter fos = null;
+    DataManager() {
+        String osName = System.getProperty("os.name");
+        //---Assign lock screen detection class based on OS type
+        if (osName.equals("Linux")) {lockScreen = new LinuxScreenLockDetect();}
+        //TODO: add line for windows lock screen detection and for Mac 
         
-        currentFile = new File(this.lastRemindedTimeFilename);
-        if(!currentFile.exists()){
+        createNewFileToStoreInfoIfItDoesNotExist();
+    }//ctor
+    
+    public void createStatesAndStart() {
+        bigSleepState = new BigSleepState(this);
+        smallSleepState = new SmallSleepState(this);
+        lockedScreenState = new LockedScreenState(this);
+        activeState = new ActiveState(this);
+        startState = new StartState(this);
+        writeState = new WriteState(this);
+        reminderState = new ReminderState(this);  
+        
+        currentState = bigSleepState;//assign the state to start with
+    }
+    
+    public boolean isScreenLocked() {return lockScreen.isScreenLocked();}
+    
+    private void createNewFileToStoreInfoIfItDoesNotExist() {
+        File currentFile = new File(this.timeFilename);
+        if(!currentFile.exists()) {
             try {
                 currentFile.createNewFile();
+                writeInitialRunDummyDataToFile();
             } catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
-        }
-        if(!currentFile.exists()){return;}
-        
-        try {fos = new PrintWriter(new FileWriter(this.lastRemindedTimeFilename, false));} catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "The file "+currentFilename+" could not be created. No recording of time can happen.", ex);}                
-        if (fos == null) {return;}        
-        fos.println(Long.toString(time));
-        fos.close();          
+        }            
     }
     
-    public long GetLastRemindedTime() {
-        return GetLastTime(this.lastRemindedTimeFilename);
-    }
-    
-    public long GetLastRecordedTime() {
-        return GetLastTime(this.currentFilename);
-    }
-    
-    private long GetLastTime(final String filename) {
-        BufferedReader input = null;
-        String last = null, line;     
-        long lastTime = 0;
+    private void writeInitialRunDummyDataToFile() {//Writes dummy data since it's the first time the file is being created
         try {
-            input = new BufferedReader(new FileReader(filename));
-        } catch (FileNotFoundException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
-
-        try {
-            if (input != null) {
-                while ((line = input.readLine()) != null) {last = line;}     
-                if (isNumber(last)) {lastTime = Long.parseLong(last);}
-            }
-        } catch (IOException ex) {Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);}
-        return lastTime;
+            PrintWriter fos = new PrintWriter(new FileWriter(timeFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
+            //Writes "minutesOfRestObtained,timeTheUserWasLastKnownToBeActive"
+            fos.println(Integer.toString(minutesOfRestObtained) + "," + Long.toString(Instant.now().getEpochSecond()));
+            fos.close();              
+        } catch (IOException ex) {Logger.getLogger(WriteState.class.getName()).log(Level.SEVERE, null, ex);}              
     }    
     
 }
