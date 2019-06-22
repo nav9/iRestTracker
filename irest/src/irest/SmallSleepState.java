@@ -1,7 +1,3 @@
-/*
- * MIT
- * Each line should be prefixed with  * 
- */
 package irest;
 
 import java.util.logging.Level;
@@ -14,10 +10,18 @@ public class SmallSleepState extends State {
     }
     @Override
     public void run() {
+        dat.fileMgr.writeToFileByOverwriting();//for saving the lastActiveTime 
         try {
             Thread.sleep(dat.smallSleepTime);//go to sleep for 1 minute
         } catch (InterruptedException ex) {Logger.getLogger(SmallSleepState.class.getName()).log(Level.SEVERE, null, ex);}
-        dat.minutesOfRestObtained -= dat.smallSleepTime * dat.strainFactor;//since user has been active
-        dat.currentState = dat.writeState;
+        
+        long elapsedTime = dat.fileMgr.getElapsedTimeInSeconds();
+        if (elapsedTime > dat.smallSleepTime + dat.bufferForProcessingTime) {//means computer was suspended during sleep
+            dat.userGotRestBy(elapsedTime);//user was getting rest            
+        } else {//user is using computer inspite of reminder
+            dat.userWasStrainedBy(dat.smallSleepTime);//user was straining eyes more than necessary
+        }
+        
+        dat.currentState = dat.writeState;//next state to switch to
     }
 }
