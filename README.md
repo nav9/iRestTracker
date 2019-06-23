@@ -29,6 +29,7 @@ java -jar path/to/the/jar/file/irest.jar
 
 
 # To use on Windows / Mac
+To create a jar: https://stackoverflow.com/questions/9681876/how-to-create-a-jar-file-in-netbeans  
 The program should run fine on any other operating system that runs the JVM. The only operating-system-specific functionality that is not yet programmed for Windows and Mac is the detection of a locked screen. If you do not need that functionality, then go ahead and run the program with:  
 java -jar path/to/the/jar/file/irest.jar  
   
