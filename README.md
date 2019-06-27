@@ -8,7 +8,7 @@ TODO: A running mode which extracts the log of usage data, stores the number of 
 # To use on Ubuntu
 You have three choices.  
 1. To start the script whenever you log in to your account, put the following line in ~/.bash_profile  
-java -jar path/to/the/jar/file/irest.jar  
+java -jar path/to/the/jar/file/irest.jar&  
 The "time.irest" file will be created in the home directory.  
 
 or  

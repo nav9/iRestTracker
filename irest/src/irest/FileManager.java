@@ -2,6 +2,7 @@ package irest;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +38,9 @@ public class FileManager {
             BufferedReader input = new BufferedReader(new FileReader(timeFilename));            
             elapsedTime = strainRef.getElapsedTimeInSeconds(input.readLine().split(","));
             input.close();
-        } catch (IOException | NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
+        } catch (IOException ex) {
+            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime            
+        } catch(NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
         return elapsedTime;
     }    
     
@@ -46,7 +49,9 @@ public class FileManager {
             BufferedReader input = new BufferedReader(new FileReader(timeFilename));            
             strainRef.loadDataAndAssign(input.readLine().split(","));
             input.close();
-        } catch (IOException | NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
+        } catch (IOException ex) {
+            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime
+        } catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
     }         
     
     public void writeToFileByOverwriting() {
@@ -54,7 +59,10 @@ public class FileManager {
             PrintWriter fos = new PrintWriter(new FileWriter(timeFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
             fos.println(strainRef.getAsStringForWriting());
             fos.close();              
-        } catch (IOException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}              
+        } catch (IOException ex) {
+            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime 
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }              
     }    
 
 }

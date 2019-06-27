@@ -8,11 +8,13 @@ public class SmallSleepState extends State {
     SmallSleepState(DataManager d) {
         dat = d;
     }
+    
     @Override
     public void run() {
         dat.fileMgr.writeToFileByOverwriting();//for saving the lastActiveTime 
+        System.out.println("going for small sleep");
         try {
-            Thread.sleep(dat.smallSleepTime);//go to sleep for 1 minute
+            Thread.sleep(dat.getSmallSleepTimeInMillis());//go to sleep for 1 minute
         } catch (InterruptedException ex) {Logger.getLogger(SmallSleepState.class.getName()).log(Level.SEVERE, null, ex);}
         
         long elapsedTime = dat.fileMgr.getElapsedTimeInSeconds();

@@ -1,6 +1,3 @@
-/*
- * MIT
- */
 package irest;
 
 import java.time.Instant;
@@ -36,6 +33,8 @@ public class StrainTracker {
     }        
     
     public String getAsStringForWriting() {
+        System.out.println("secondsStrained: "+secondsUserIsStrained);
+        timeUserWasLastActive = Instant.now().getEpochSecond();
         return Integer.toString(secondsUserIsStrained)+","
                 +Double.toString(rateOfStrainDecrease)+","
                 +Double.toString(rateOfStrainIncrease)+","

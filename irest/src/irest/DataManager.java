@@ -17,8 +17,8 @@ public class DataManager {
     private final int toSecond = 60;
     private final int maxTolerableStrainTime = 60 * toSecond;//Unit: seconds
     public final long bufferForProcessingTime = 5;//Unit: seconds
-    public final int bigSleepTime = 5 * toSecond * toMilli;//Unit: minutes to milliseconds. Thread sleep needs it in this unit
-    public final int smallSleepTime = 1 * toSecond * toMilli;//Unit: minutes to milliseconds. Thread sleep needs it in this unit
+    public final int bigSleepTime = 5 * toSecond;//Unit: seconds
+    public final int smallSleepTime = 1 * toSecond;//Unit: seconds
     
     public StrainTracker strainInfo = null;
     public FileManager fileMgr = null;
@@ -32,6 +32,9 @@ public class DataManager {
         if (osName.equals("Linux")) {lockScreen = new LinuxScreenLockDetect();}
         //TODO: add line for windows lock screen detection and for Mac 
     }//ctor
+    
+    public final int getBigSleepTimeInMillis() { return bigSleepTime * toMilli; }
+    public final int getSmallSleepTimeInMillis() { return smallSleepTime * toMilli; }
     
     public void createStatesAndStart() {
         bigSleepState = new BigSleepState(this);
@@ -48,14 +51,18 @@ public class DataManager {
     public boolean isScreenLocked() {return lockScreen.isScreenLocked();}
     
     public void userGotRestBy(final double time) {
+        System.out.println("User got rest by:"+ time+". Rate of strain decr: "+strainInfo.rateOfStrainDecrease);
         strainInfo.secondsUserIsStrained -= time * strainInfo.rateOfStrainDecrease;//user was getting rest
+        if (strainInfo.secondsUserIsStrained < 0) {strainInfo.secondsUserIsStrained = 0;}
     }
 
     public void userWasStrainedBy(final double time) {
+        System.out.println("User was strained by:"+ time+". Rate of strain incr: "+strainInfo.rateOfStrainIncrease);
         strainInfo.secondsUserIsStrained += time * strainInfo.rateOfStrainIncrease;//user was being strained
     }
     
-    public boolean userNeedsToBeRemindedToStop() {        
+    public boolean userNeedsToBeRemindedToStop() {    
+        System.out.println("secondsStrained:"+strainInfo.secondsUserIsStrained+". maxTolerableStrainTime:"+maxTolerableStrainTime);
         return strainInfo.secondsUserIsStrained >= maxTolerableStrainTime;
     }
     
