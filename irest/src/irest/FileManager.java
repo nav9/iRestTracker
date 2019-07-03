@@ -17,19 +17,21 @@ public class FileManager {
     
     FileManager(StrainTracker strainInfoRef) {
         strainRef = strainInfoRef;
-        createNewFileIfItDoesNotExist();
+        createNewFileIfItDoesNotExist();        
     }
     
     private void createNewFileIfItDoesNotExist() {
         File currentFile = new File(this.timeFilename);
-        if(!currentFile.exists()) {
+        System.out.println("File Exists? "+currentFile.exists());
+        if(currentFile.exists() == false) {
             try {
                 currentFile.createNewFile();
                 PrintWriter fos = new PrintWriter(new FileWriter(timeFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
                 fos.println(strainRef.getAsStringForWriting());
                 fos.close();
             } catch (IOException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
-        }            
+        }  
+        loadDataFromFile();
     }
     
     public long getElapsedTimeInSeconds() {

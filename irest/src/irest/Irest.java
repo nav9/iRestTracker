@@ -5,10 +5,7 @@
  */
 package irest;
 
-//String phone = "012-3456789";
-//	String[] output = phone.split("-");
-//	System.out.println(output[0]);
-//	System.out.println(output[1]);
+//TODO: many public class member variables need to be converted to private and have getter/setters
 
 public class Irest {
     public static void main(String[] args) {

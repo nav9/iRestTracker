@@ -11,16 +11,21 @@ public class StrainTracker {
     
     StrainTracker() {}
     
-    public void loadDataAndAssign(final String[] line) {
+    public void loadDataAndAssign(final String[] line) {        
         int i = 0;
-        int secondsOfStrain = Integer.parseInt(line[i++]);
-        rateOfStrainDecrease = Double.parseDouble(line[i++]);
-        double strainIncreaseRate = Double.parseDouble(line[i++]);
-        timeUserWasLastActive = Long.parseLong(line[i++]);
+        System.out.println("Assigning data:");
+        int secondsOfStrain = Integer.parseInt(line[i++]); System.out.println(" "+secondsOfStrain);
+        rateOfStrainDecrease = Double.parseDouble(line[i++]); System.out.println(" "+rateOfStrainDecrease);
+        double strainIncreaseRate = Double.parseDouble(line[i++]); System.out.println(" "+strainIncreaseRate);
+        timeUserWasLastActive = Long.parseLong(line[i++]); System.out.println(" "+timeUserWasLastActive);
+        System.out.println("Elapsed time in sec: "+getElapsedTimeInSeconds(line)+" and secOfStrain:"+secondsOfStrain);
         if (getElapsedTimeInSeconds(line) > secondsOfStrain) {//means the user got enough of rest
             secondsUserIsStrained = 0;
+            System.out.println("Elapsed time greater, so assigning secondsUserIsStrained="+secondsUserIsStrained);
         } else {
+            secondsUserIsStrained = secondsOfStrain;
             rateOfStrainIncrease = strainIncreaseRate;
+            System.out.println("secondsUserIsStrained="+secondsUserIsStrained+", rateOfStrainIncrease="+rateOfStrainIncrease);
         }
     }
     

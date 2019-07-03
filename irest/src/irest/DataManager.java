@@ -48,7 +48,10 @@ public class DataManager {
         currentState = bigSleepState;//assign the state to start with
     }
     
-    public boolean isScreenLocked() {return lockScreen.isScreenLocked();}
+    public boolean isScreenLocked() {
+        System.out.println("ScreenLocked?: "+lockScreen.isScreenLocked());
+        return lockScreen.isScreenLocked();
+    }
     
     public void userGotRestBy(final double time) {
         System.out.println("User got rest by:"+ time+". Rate of strain decr: "+strainInfo.rateOfStrainDecrease);
