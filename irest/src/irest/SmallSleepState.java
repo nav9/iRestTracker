@@ -12,18 +12,20 @@ public class SmallSleepState extends State {
     @Override
     public void run() {
         dat.fileMgr.writeToFileByOverwriting();//for saving the lastActiveTime 
-        System.out.println("going for small sleep");
+        log.write("SmallSleepState: going for small sleep");
         try {
             Thread.sleep(dat.getSmallSleepTimeInMillis());//go to sleep for 1 minute
         } catch (InterruptedException ex) {Logger.getLogger(SmallSleepState.class.getName()).log(Level.SEVERE, null, ex);}
         
         long elapsedTime = dat.fileMgr.getElapsedTimeInSeconds();
         if (elapsedTime > dat.smallSleepTime + dat.bufferForProcessingTime) {//means computer was suspended during sleep
+            log.write("SmallSleepState: user got rest by "+elapsedTime);
             dat.userGotRestBy(elapsedTime);//user was getting rest            
         } else {//user is using computer inspite of reminder
+            log.write("SmallSleepState: user was strained by: "+dat.smallSleepTime);
             dat.userWasStrainedBy(dat.smallSleepTime);//user was straining eyes more than necessary
         }
-        
+        log.write("SmallSleepState: switching to write state");
         dat.currentState = dat.writeState;//next state to switch to
     }
 }

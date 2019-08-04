@@ -10,8 +10,10 @@ public class WriteAndDecideState extends State {
     public void run() {
         dat.fileMgr.writeToFileByOverwriting();
         if (dat.isScreenLocked() == false && dat.userNeedsToBeRemindedToStop()) {
+            log.write("WriteState: screen not locked. User needs to be reminded to stop. Going to reminder state");
             dat.currentState = dat.reminderState;
         } else {
+            log.write("WriteState: screen locked or user does not need ot be reminded to stop. Going to bigSleepState");
             dat.currentState = dat.bigSleepState;
         }
     }    

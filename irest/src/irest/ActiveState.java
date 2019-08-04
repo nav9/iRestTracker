@@ -11,12 +11,14 @@ public class ActiveState extends State {
         long elapsedTime = dat.fileMgr.getElapsedTimeInSeconds();
         if (elapsedTime > dat.bigSleepTime + dat.bufferForProcessingTime) {//means computer was suspended during sleep
             dat.userGotRestBy(elapsedTime);
-            System.out.println("Active state elapsed time: "+elapsedTime);
+            log.write("ActiveState: elapsed time greater than bigSleepTime+bufferTime");
+            log.write("Active state elapsed time: "+elapsedTime);
         } else {//normal computer active state
             dat.userWasStrainedBy(dat.bigSleepTime);
-            System.out.println("Active state bigSleep time: "+dat.bigSleepTime);
+            log.write("ActiveState: elapsed time lesser than or equal bigSleepTime+bufferTime");
+            log.write("Active state bigSleep time: "+dat.bigSleepTime);
         }
-        
+        log.write("Active state: going to writeState");
         dat.currentState = dat.writeState;        
     }
 }

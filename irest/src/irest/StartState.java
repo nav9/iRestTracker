@@ -7,6 +7,8 @@ public class StartState extends State {
     }
     @Override
     public void run() {
+        log.write("----------- program begins -----------");
+        log.write("StartState: going to big sleep state");
         dat.currentState = dat.bigSleepState;
     }    
     

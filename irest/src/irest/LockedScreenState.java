@@ -11,11 +11,12 @@ public class LockedScreenState extends State {
         long elapsedTime = dat.fileMgr.getElapsedTimeInSeconds();
         if (elapsedTime > dat.bigSleepTime + dat.bufferForProcessingTime) {//means computer was suspended during sleep and wakes to a locked screen state
             dat.userGotRestBy(elapsedTime);
-            System.out.println("Locked scr state elapsed time: "+elapsedTime);
+            log.write("Locked scr state: elapsed time greater than big sleep time: "+elapsedTime);
         } else {//normal computer lock screen state
             dat.userGotRestBy(dat.bigSleepTime);
-            System.out.println("Locked scr state big sleep time: "+dat.bigSleepTime);
+            log.write("Locked scr state: elapsed time lesser than or equal to big sleep time: "+dat.bigSleepTime);
         }
+        log.write("Locked scr state: switching to write state ");
         dat.currentState = dat.writeState;
     }    
 }

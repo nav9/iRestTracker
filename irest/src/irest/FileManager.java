@@ -17,10 +17,10 @@ public class FileManager {
     
     FileManager(StrainTracker strainInfoRef) {
         strainRef = strainInfoRef;
-        createNewFileIfItDoesNotExist();        
+        createNewTimeFileIfItDoesNotExist();  
     }
     
-    private void createNewFileIfItDoesNotExist() {
+    private void createNewTimeFileIfItDoesNotExist() {
         File currentFile = new File(this.timeFilename);
         System.out.println("File Exists? "+currentFile.exists());
         if(currentFile.exists() == false) {
@@ -32,7 +32,7 @@ public class FileManager {
             } catch (IOException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
         }  
         loadDataFromFile();
-    }
+    }  
     
     public long getElapsedTimeInSeconds() {
         long elapsedTime = 0;
@@ -41,7 +41,7 @@ public class FileManager {
             elapsedTime = strainRef.getElapsedTimeInSeconds(input.readLine().split(","));
             input.close();
         } catch (IOException ex) {
-            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime            
+            if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}//in case somebody deletes the file during runtime            
         } catch(NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
         return elapsedTime;
     }    
@@ -52,7 +52,7 @@ public class FileManager {
             strainRef.loadDataAndAssign(input.readLine().split(","));
             input.close();
         } catch (IOException ex) {
-            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime
+            if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}//in case somebody deletes the file during runtime
         } catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
     }         
     
@@ -62,7 +62,7 @@ public class FileManager {
             fos.println(strainRef.getAsStringForWriting());
             fos.close();              
         } catch (IOException ex) {
-            if (ex instanceof FileNotFoundException) {createNewFileIfItDoesNotExist();}//in case somebody deletes the file during runtime 
+            if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}//in case somebody deletes the file during runtime 
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }              
     }    
