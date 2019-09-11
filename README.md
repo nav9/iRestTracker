@@ -5,7 +5,7 @@ TODO: A running mode which extracts the log of usage data, stores the number of 
   
 # To use on Ubuntu
 You have three choices.  
-1. To have the script automatically start whenever you log in to your account, put the following line in Ubuntu's "startup applications" which you can access via the Ubuntu start menu.  
+1. To have the script automatically start whenever you log in to your account, put the following line in Ubuntu's "startup applications" which you can access via the Ubuntu start menu. https://askubuntu.com/questions/48321/how-do-i-start-applications-automatically-on-login  
 java -jar path/to/the/jar/file/irest.jar&  
 The "irest.time" file and "irest.log" files will be created in the home directory.  
 This method of starting iRest is the most convenient and is the recommended method.  
