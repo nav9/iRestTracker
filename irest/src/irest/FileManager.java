@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class FileManager {
     private final String programName = "irest";
-    public final String timeFilename = "time." + this.programName;
+    public final String timeFilename = this.programName + ".time";
     private StrainTracker strainRef = null;
     
     FileManager(StrainTracker strainInfoRef) {

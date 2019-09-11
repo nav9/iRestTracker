@@ -29,7 +29,10 @@ public class DataManager {
     
         String osName = System.getProperty("os.name");
         //---Assign lock screen detection class based on OS type
-        if (osName.equals("Linux")) {lockScreen = new LinuxScreenLockDetect();}
+        if (osName.equals("Linux")) {
+            lockScreen = new LinuxScreenLockDetect();
+            System.out.println("Linux Lock screen detection active");
+        }
         //TODO: add line for windows lock screen detection and for Mac 
     }//ctor
     
@@ -48,9 +51,8 @@ public class DataManager {
         currentState = bigSleepState;//assign the state to start with
     }
     
-    public boolean isScreenLocked() {
-        System.out.println("ScreenLocked?: "+lockScreen.isScreenLocked());
-        return lockScreen.isScreenLocked();
+    public boolean isScreenLocked(LogManager log) {
+        return lockScreen.isScreenLocked(log);
     }
     
     public void userGotRestBy(final double time) {

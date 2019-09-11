@@ -16,7 +16,7 @@ public class BigSleepState extends State {
         try {
             Thread.sleep(dat.getBigSleepTimeInMillis());//go to sleep for 5 minutes
         } catch (InterruptedException ex) {Logger.getLogger(BigSleepState.class.getName()).log(Level.SEVERE, null, ex);}
-        if (dat.isScreenLocked()) {
+        if (dat.isScreenLocked(log)) {
             dat.currentState = dat.lockedScreenState;
             log.write("BigSleepstate: screen locked, so going to lock screen state");
         } else {
