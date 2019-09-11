@@ -41,3 +41,7 @@ kill -9 $(pgrep -f 'irest')
 
 # Diagrams
 StateTransitions.odg is a LibreOffice document that depicts the states that the program transitions between. The StateTransitions.png file is just the exported image of the odg file.
+
+# TODO
+Add an AI with ANN and time series analysis to learn the User's comfort level (amount of time they use the computer continuously without any problems) and present the strain reminder accordingly.
+
