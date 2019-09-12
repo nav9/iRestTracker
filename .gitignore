@@ -41,3 +41,10 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/java,netbeans
+
+# The exclamation mark makes them "not ignored"
+!*.jar
+!irest/dist/
+irest/dist/README.TXT
+
+
