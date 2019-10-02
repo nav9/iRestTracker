@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LogManager {
-    private final boolean loggerActive = false;
+    private final boolean loggerActive = true;
     public final String logFilename = "irest.log";//didn't use log4j or slf on purpose, to avoid an extra dependency for this tiny program. Adding it in future is an option
     
     LogManager() {

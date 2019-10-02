@@ -6,7 +6,7 @@
 package irest;
 
 //TODO: many public class member variables need to be converted to private and have getter/setters
-
+//https://stackoverflow.com/questions/10228145/how-to-detect-workstation-system-screen-lock-unlock-in-windows-os-using-java
 public class Irest {
     public static void main(String[] args) {
         DataManager dat = new DataManager();

@@ -24,8 +24,8 @@ public class DataManager {
     public FileManager fileMgr = null;
     
     DataManager() {
-        strainInfo = new StrainTracker();
-        fileMgr = new FileManager(strainInfo);
+        strainInfo = new StrainTracker(currentState.log);
+        fileMgr = new FileManager(strainInfo, currentState.log);
     
         String osName = System.getProperty("os.name");
         //---Assign lock screen detection class based on OS type

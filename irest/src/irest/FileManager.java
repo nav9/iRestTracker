@@ -14,15 +14,17 @@ public class FileManager {
     private final String programName = "irest";
     public final String timeFilename = this.programName + ".time";
     private StrainTracker strainRef = null;
+    private LogManager log = null;
     
-    FileManager(StrainTracker strainInfoRef) {
+    FileManager(StrainTracker strainInfoRef, LogManager logManagerRef) {
+        log = logManagerRef;
         strainRef = strainInfoRef;
         createNewTimeFileIfItDoesNotExist();  
     }
     
     private void createNewTimeFileIfItDoesNotExist() {
         File currentFile = new File(this.timeFilename);
-        System.out.println("File Exists? "+currentFile.exists());
+        log.write("File Exists? "+currentFile.exists());
         if(currentFile.exists() == false) {
             try {
                 currentFile.createNewFile();
