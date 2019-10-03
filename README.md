@@ -51,6 +51,6 @@ StateTransitions.odg is a LibreOffice document that depicts the states that the 
 * Display a visual dialog box or a system tray notification instead of just a beep.
 * Program the lock screen detection for Windows and Mac.
 * Have a config file for variables like log activation.
-
+* Using "String[] line" in StrainTracker.java is prone to bugs. Use a JSON with proper names for each number
 
 
