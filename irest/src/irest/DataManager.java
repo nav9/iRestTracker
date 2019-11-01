@@ -73,7 +73,7 @@ public class DataManager {
     
     public void userWasActiveForThisMuchTimeToday(final double timeActive) {
         TrackerInfo info = new TrackerInfo();
-        info.setDate(strainInfo.getTodaysDate());
+        info.setDateAsTodaysDate();
         info.setTimeActive(timeActive);
         fileMgr.writeToTimeTrackerFile(info);
     }

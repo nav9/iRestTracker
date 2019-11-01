@@ -13,7 +13,7 @@ public class WriteAndDecideState extends State {
             log.write("WriteState: screen not locked. User needs to be reminded to stop. Going to reminder state");
             dat.currentState = dat.reminderState;
         } else {
-            log.write("WriteState: screen locked or user does not need ot be reminded to stop. Going to bigSleepState");
+            log.write("WriteState: screen locked or user does not need to be reminded to stop. Going to bigSleepState");
             dat.currentState = dat.bigSleepState;
         }
     }    
