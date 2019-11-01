@@ -1,6 +1,7 @@
 # iRestTracker
-A handy program that runs in the background, keeping track of how long you used the computer.
+A handy program that runs in the background, keeping track of how long you used the computer.  
 After an hour's running, a beep will remind you to stop using the computer. If you don't stop, the beep will recur every few minutes until you either lock the screen, suspend the computer, restart or shutdown. If you stop using the computer after the beep sounds, the program will calculate a certain amount of time you need to take rest, depending on how much you were strained. If you continue using the computer for many subsequent beeps, a factor is used to increase the amount of estimated rest you need, so even if you shutdown or restart the computer, once you start using it again, if the program thinks you haven't got enough rest, it'll keep beeping. The only way to override this is by killing the process using "kill -9 $(pgrep -f 'irest')" and deleting the "irest.time" file.  
+The amount of time the user has used the computer is stored in irest.tracking and a log of this tracking is stored in irest.results.  
   
 # Where is the executable?  
 You can either choose to take the "irest.jar" file from the "irest/dist" folder and run it (instructions below) or you can download the entire program and build it on your own.  

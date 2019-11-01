@@ -1,6 +1,8 @@
 *.txt
 *.csv
 *.irest
+irest.tracker
+irest.results
 
 # Created by https://www.gitignore.io/api/java,netbeans
 # Edit at https://www.gitignore.io/?templates=java,netbeans
@@ -42,7 +44,11 @@ nbdist/
 
 # End of https://www.gitignore.io/api/java,netbeans
 
+##################################################
+##################################################
 # The exclamation mark makes them "not ignored"
+##################################################
+##################################################
 !*.jar
 !irest/dist/
 irest/dist/README.TXT
