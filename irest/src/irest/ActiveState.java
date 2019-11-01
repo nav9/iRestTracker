@@ -15,6 +15,7 @@ public class ActiveState extends State {
             log.write("Active state elapsed time: "+elapsedTime);
         } else {//normal computer active state
             dat.userWasStrainedBy(dat.bigSleepTime);
+            dat.userWasActiveForThisMuchTimeToday(dat.bigSleepTime);
             log.write("ActiveState: elapsed time lesser than or equal bigSleepTime+bufferTime");
             log.write("Active state bigSleep time: "+dat.bigSleepTime);
         }

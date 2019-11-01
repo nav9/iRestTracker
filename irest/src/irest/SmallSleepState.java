@@ -11,7 +11,7 @@ public class SmallSleepState extends State {
     
     @Override
     public void run() {
-        dat.fileMgr.writeToFileByOverwriting();//for saving the lastActiveTime 
+        dat.fileMgr.writeToTimeFileByOverwriting();//for saving the lastActiveTime 
         log.write("SmallSleepState: going for small sleep");
         try {
             Thread.sleep(dat.getSmallSleepTimeInMillis());//go to sleep for 1 minute

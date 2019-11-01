@@ -33,7 +33,7 @@ public class FileManager {
                 fos.close();
             } catch (IOException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
         }  
-        loadDataFromFile();
+        loadDataFromTimeFile();
     }  
     
     public long getElapsedTimeInSeconds() {
@@ -48,7 +48,7 @@ public class FileManager {
         return elapsedTime;
     }    
     
-    public void loadDataFromFile() {
+    public void loadDataFromTimeFile() {
         try {
             BufferedReader input = new BufferedReader(new FileReader(timeFilename));            
             strainRef.loadDataAndAssign(input.readLine().split(","));
@@ -58,7 +58,7 @@ public class FileManager {
         } catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
     }         
     
-    public void writeToFileByOverwriting() {
+    public void writeToTimeFileByOverwriting() {
         try {
             PrintWriter fos = new PrintWriter(new FileWriter(timeFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
             fos.println(strainRef.getAsStringForWriting());
@@ -68,5 +68,56 @@ public class FileManager {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }              
     }    
-
+    
+    public TrackerInfo loadDataFromTrackerFile() {
+        TrackerInfo trackerInfo = new TrackerInfo();
+        try {
+            BufferedReader input = new BufferedReader(new FileReader(strainRef.timeTrackerFilename));            
+            trackerInfo.setFromString(input.readLine());
+            input.close();
+        } catch (IOException ex) {
+            this.createNewTrackerFile();//in case somebody deletes the file during runtime
+        } catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
+        return trackerInfo;
+    }  
+    
+    public void writeToTimeTrackerFile(final TrackerInfo trackerInfo) {
+        TrackerInfo storedTrackerData = loadDataFromTrackerFile();
+        trackerInfo.addTheAccumulatedTime(storedTrackerData.getTime());
+        if (trackerInfo.isSameDay(storedTrackerData.getDate())) {
+            try {
+                PrintWriter fos = new PrintWriter(new FileWriter(strainRef.timeTrackerFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
+                fos.println(trackerInfo.getAsStringForWriting());
+                fos.close();              
+            } catch (IOException ex) {
+                if (ex instanceof FileNotFoundException) {this.createNewTrackerFile();}//in case somebody deletes the file during runtime. CAUTION/BUG: possibility of recursion
+                Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+            }                           
+        } else {
+            this.appendPreviousDaysTotalToTimeTrackerFile(storedTrackerData);
+        }           
+    }       
+    
+    public void appendPreviousDaysTotalToTimeTrackerFile(final TrackerInfo previousDaysTotalTimeActive) {
+        try {
+            PrintWriter fos = new PrintWriter(new FileWriter(strainRef.trackerResultsFilename, true));//the 'true' means the file data will be appended to. It won't be overwritten
+            fos.println(previousDaysTotalTimeActive.getAsStringForWriting());
+            fos.close();              
+        } catch (IOException ex) {
+            if (ex instanceof FileNotFoundException) {this.createNewTrackerFile();}//in case somebody deletes the file during runtime 
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }              
+    }       
+    
+    public void createNewTrackerFile() {
+        TrackerInfo tr = new TrackerInfo();
+        try {
+            PrintWriter fos = new PrintWriter(new FileWriter(strainRef.trackerResultsFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
+            fos.println(tr);
+            fos.close();              
+        } catch (IOException ex) {
+            if (ex instanceof FileNotFoundException) {}//in case somebody deletes the file during runtime 
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }              
+    }      
 }

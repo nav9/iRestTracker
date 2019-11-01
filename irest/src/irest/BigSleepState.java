@@ -11,7 +11,7 @@ public class BigSleepState extends State {
     
     @Override
     public void run() {
-        dat.fileMgr.writeToFileByOverwriting();//for saving the lastActiveTime 
+        dat.fileMgr.writeToTimeFileByOverwriting();//for saving the lastActiveTime 
         log.write("Gonna big sleep");
         try {
             Thread.sleep(dat.getBigSleepTimeInMillis());//go to sleep for 5 minutes

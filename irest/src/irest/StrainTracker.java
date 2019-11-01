@@ -1,6 +1,8 @@
 package irest;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 //TODO: Functions in this class need serious improvement. Use serialization or CSV or JSON
 public class StrainTracker {
@@ -14,6 +16,8 @@ public class StrainTracker {
     private final int rateOfStrainIncreaseIndex = 2;
     private final int timeUserWasLastActiveIndex = 3;
     private LogManager log = null;
+    public final String timeTrackerFilename = "Tracking/iRest" + ".tracking";
+    public final String trackerResultsFilename = "Tracking/Results" + ".results";    
     
     StrainTracker(LogManager logRef) {
         log = logRef;
@@ -50,4 +54,8 @@ public class StrainTracker {
                 +Double.toString(rateOfStrainIncrease)+","
                 +Long.toString(timeUserWasLastActive);
     }    
+    
+    public String getTodaysDate() {
+        return DateTimeFormatter.ofPattern("yyyy/MM/dd").format(LocalDate.now());            
+    }
 }

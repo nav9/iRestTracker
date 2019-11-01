@@ -71,4 +71,11 @@ public class DataManager {
         return strainInfo.secondsUserIsStrained >= maxTolerableStrainTime;
     }
     
+    public void userWasActiveForThisMuchTimeToday(final double timeActive) {
+        TrackerInfo info = new TrackerInfo();
+        info.setDate(strainInfo.getTodaysDate());
+        info.setTimeActive(timeActive);
+        fileMgr.writeToTimeTrackerFile(info);
+    }
+    
 }

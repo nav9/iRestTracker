@@ -8,7 +8,7 @@ public class WriteAndDecideState extends State {
     
     @Override
     public void run() {
-        dat.fileMgr.writeToFileByOverwriting();
+        dat.fileMgr.writeToTimeFileByOverwriting();
         if (dat.isScreenLocked(log) == false && dat.userNeedsToBeRemindedToStop()) {
             log.write("WriteState: screen not locked. User needs to be reminded to stop. Going to reminder state");
             dat.currentState = dat.reminderState;
