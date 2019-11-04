@@ -63,7 +63,8 @@ public class FileManager {
     public void writeToTimeFileByOverwriting() {
         try {
             PrintWriter fos = new PrintWriter(new FileWriter(timeFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
-            fos.println(strainRef.getAsStringForWriting());
+            String infoString = strainRef.getAsStringForWriting();
+            fos.println(infoString);
             fos.close();              
         } catch (IOException ex) {
             if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}//in case somebody deletes the file during runtime 
@@ -85,10 +86,9 @@ public class FileManager {
     }  
     
     public void writeToTimeTrackerFile(final TrackerInfo trackerInfo) {
-        TrackerInfo storedTrackerData = loadDataFromTrackerFile();
-        //System.out.println("Loaded tracker data = "+storedTrackerData.getAsStringForWriting());
-        trackerInfo.addTheAccumulatedTime(storedTrackerData.getTime());
+        TrackerInfo storedTrackerData = loadDataFromTrackerFile();        
         if (trackerInfo.isSameDay(storedTrackerData.getDate())) {
+            trackerInfo.addTheAccumulatedTime(storedTrackerData.getTime());
             try {
                 PrintWriter fos = new PrintWriter(new FileWriter(this.timeTrackerFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
                 String infoString = trackerInfo.getAsStringForWriting();
@@ -101,6 +101,7 @@ public class FileManager {
             }                           
         } else {
             this.appendPreviousDaysTotalToTimeTrackerFile(storedTrackerData);
+            this.createNewTrackerFile();
         }           
     }       
     
@@ -122,7 +123,8 @@ public class FileManager {
         TrackerInfo tr = new TrackerInfo();
         try {
             PrintWriter fos = new PrintWriter(new FileWriter(this.timeTrackerFilename, false));//the 'false' means the file data won't be appended to. It will be overwritten
-            fos.println(tr.getAsStringForWriting());
+            String infoString = tr.getAsStringForWriting();
+            fos.println(infoString);
             fos.close();              
         } catch (IOException ex) {
             if (ex instanceof FileNotFoundException) {}//in case somebody deletes the file during runtime 

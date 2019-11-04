@@ -17,7 +17,7 @@ public class DataManager {
     private final int toSecond = 60;
     private final int maxTolerableStrainTime = 60 * toSecond;//Unit: seconds
     public final long bufferForProcessingTime = 5;//Unit: seconds
-    public final int bigSleepTime = 5 * toSecond;//Unit: seconds
+    public final int bigSleepTime = 2 * toSecond;//Unit: seconds
     public final int smallSleepTime = 1 * toSecond;//Unit: seconds
     
     public StrainTracker strainInfo = null;

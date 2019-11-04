@@ -12,7 +12,8 @@ public class TrackerInfo {
     
     public String getAsStringForWriting() {
         //System.out.println("getting string for writing: "+this.todaysDate + "," + this.totalTimeActiveToday);
-        return this.todaysDate + "," + this.totalTimeActiveToday;
+        String output = this.todaysDate + "," + this.totalTimeActiveToday;
+        return output;
     } 
     
     public void setFromString(String info) {
