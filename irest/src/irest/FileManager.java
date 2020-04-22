@@ -55,9 +55,10 @@ public class FileManager {
             BufferedReader input = new BufferedReader(new FileReader(timeFilename));   
             strainRef.loadDataAndAssign(input.readLine().split(","));
             input.close();
-        } catch (IOException ex) {if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}//in case somebody deletes the file during runtime
-        } catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
-        catch (NullPointerException ex) {File currentFile = new File(this.timeFilename); System.out.println("Deleted empty file...");currentFile.delete();Logger.getLogger("deleted empty file", null);}
+        } catch (NullPointerException ex) {File currentFile = new File(this.timeFilename); System.out.println("Deleted empty file...");currentFile.delete();Logger.getLogger("deleted empty file", null);}
+        catch (IOException ex) {if (ex instanceof FileNotFoundException) {createNewTimeFileIfItDoesNotExist();}}//in case somebody deletes the file during runtime
+        catch (NumberFormatException ex) {Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);}
+        
     }         
     
     public void writeToTimeFileByOverwriting() {
