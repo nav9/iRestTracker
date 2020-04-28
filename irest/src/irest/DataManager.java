@@ -56,18 +56,21 @@ public class DataManager {
     }
     
     public void userGotRestBy(final double time) {
-        System.out.println("User got rest by:"+ time+". Rate of strain decr: "+strainInfo.rateOfStrainDecrease);
+        //System.out.println("User got rest by:"+ time+". Rate of strain decr: "+strainInfo.rateOfStrainDecrease);
         strainInfo.secondsUserIsStrained -= time * strainInfo.rateOfStrainDecrease;//user was getting rest
-        if (strainInfo.secondsUserIsStrained < 0) {strainInfo.secondsUserIsStrained = 0;}
+        if (strainInfo.secondsUserIsStrained < 0) {
+            strainInfo.secondsUserIsStrained = 0;
+            reminderState.resetFirstReminder();
+        }
     }
 
     public void userWasStrainedBy(final double time) {
-        System.out.println("User was strained by:"+ time+". Rate of strain incr: "+strainInfo.rateOfStrainIncrease);
+        //System.out.println("User was strained by:"+ time+". Rate of strain incr: "+strainInfo.rateOfStrainIncrease);
         strainInfo.secondsUserIsStrained += time * strainInfo.rateOfStrainIncrease;//user was being strained
     }
     
     public boolean userNeedsToBeRemindedToStop() {    
-        System.out.println("secondsStrained:"+strainInfo.secondsUserIsStrained+". maxTolerableStrainTime:"+maxTolerableStrainTime);
+        //System.out.println("secondsStrained:"+strainInfo.secondsUserIsStrained+". maxTolerableStrainTime:"+maxTolerableStrainTime);
         return strainInfo.secondsUserIsStrained >= maxTolerableStrainTime;
     }
     
