@@ -1,5 +1,7 @@
 package irest;
 
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
 import sounds.PlaySound;
 
 public class ReminderState extends State {
@@ -22,9 +24,9 @@ public class ReminderState extends State {
 //        dat.fileMgr.writeToFileByOverwriting();//necessary only if message dialog showing is enabled
         this.sounds.PlayBeep();
         //Note: Disabling showing the message until a non-blocking alert can be implemented. As of now, the alert pauses program execution until the user closes the dialog box, and this gives SmallSleepState an inaccurate estimate of how long the user has been active since the user was reminded
-//        try {
-//            JOptionPane.showMessageDialog(null, "Time to rest");   
-//        } catch(HeadlessException ex) {Logger.getLogger(Timekeeper.class.getName()).log(Level.WARNING, null, ex);}
+        try {
+            JOptionPane.showMessageDialog(null, "Time to rest");   
+        } catch(HeadlessException ex) {log.write(ex.toString());}
         log.write("Reminder state: switching to small sleep state");
         dat.currentState = dat.smallSleepState;
     }  
