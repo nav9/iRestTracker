@@ -33,14 +33,14 @@ irest.results
 hs_err_pid*
 
 ### NetBeans ###
-**/nbproject/private/
-**/nbproject/Makefile-*.mk
-**/nbproject/Package-*.bash
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+#**/nbproject/private/
+#**/nbproject/Makefile-*.mk
+#**/nbproject/Package-*.bash
+#build/
+#nbbuild/
+#dist/
+#nbdist/
+#.nb-gradle/
 
 # End of https://www.gitignore.io/api/java,netbeans
 
@@ -54,3 +54,5 @@ nbdist/
 irest/dist/README.TXT
 
 
+/irest/.gradle/
+/irest/build/

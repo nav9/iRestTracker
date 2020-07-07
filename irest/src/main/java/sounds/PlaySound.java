@@ -14,7 +14,7 @@ public class PlaySound {
 
     public void PlayBeep() {   
         try {
-            AudioClip clip = Applet.newAudioClip(getClass().getResource("/sounds/beep3.wav"));
+            AudioClip clip = Applet.newAudioClip(getClass().getResource("/beep3.wav"));
             clip.play();
         } catch(Exception ex) {{Logger.getLogger(PlaySound.class.getName()).log(Level.WARNING, null, ex);}}
     }

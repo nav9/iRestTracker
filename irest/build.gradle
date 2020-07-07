@@ -14,3 +14,11 @@ repositories {
 dependencies {
     testImplementation     'junit:junit:4.13'
 }
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'irest.Irest'
+        )
+    }
+}
