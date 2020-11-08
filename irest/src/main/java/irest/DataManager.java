@@ -15,10 +15,15 @@ public class DataManager {
     private LockScreenDetector lockScreen = new LockScreenDetector();//Default functionality is to not detect lock screen. Can be overridden based on OS type, where the overriding class can detect screen locks
     private final int toMilli = 1000;
     private final int toSecond = 60;
-    private final int maxTolerableStrainTime = 60 * toSecond;//Unit: seconds
+    private final int ONE_HOUR = 60 * toSecond;
+    private final int TWENTY_MINUTES = 20 * toSecond;
+    private final int TWO_MINUTES = 2 * toSecond;
+    private final int ONE_MINUTE = 1 * toSecond;
+    private final int maxTolerableStrainTime = TWENTY_MINUTES;//Unit: seconds
+    private final int maxStrainAllowedPerDay = ONE_HOUR * 6;//Six hours. Unit: seconds. 
     public final long bufferForProcessingTime = 5;//Unit: seconds
-    public final int bigSleepTime = 2 * toSecond;//Unit: seconds
-    public final int smallSleepTime = 1 * toSecond;//Unit: seconds
+    public final int bigSleepTime = TWO_MINUTES * toSecond;//Unit: seconds
+    public final int smallSleepTime = ONE_MINUTE * toSecond;//Unit: seconds
     
     public StrainTracker strainInfo = null;
     public FileManager fileMgr = null;
@@ -73,6 +78,11 @@ public class DataManager {
         //System.out.println("secondsStrained:"+strainInfo.secondsUserIsStrained+". maxTolerableStrainTime:"+maxTolerableStrainTime);
         return strainInfo.secondsUserIsStrained >= maxTolerableStrainTime;
     }
+    
+    public boolean userNeedsToBeToldToStopForTheDay() {//TODO: this needs to be used. Shift all data into a JSON and then do this
+        //System.out.println("secondsStrained:"+strainInfo.secondsUserIsStrained+". maxTolerableStrainTime:"+maxTolerableStrainTime);
+        return strainInfo.secondsUserIsStrained >= maxStrainAllowedPerDay;
+    }    
     
     public void userWasActiveForThisMuchTimeToday(final double timeActive) {
         TrackerInfo info = new TrackerInfo();
